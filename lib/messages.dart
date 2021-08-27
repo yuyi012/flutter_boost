@@ -4,7 +4,7 @@
 // @dart = 2.8
 import 'dart:async';
 import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class CommonParams {
@@ -275,6 +275,9 @@ class NativeRouterApi {
   }
 
   Future<StackInfo> getStackFromHost() async {
+    if(defaultTargetPlatform!=TargetPlatform.iOS&&defaultTargetPlatform!=TargetPlatform.android){
+      return null;
+    }
     final BasicMessageChannel<Object> channel = BasicMessageChannel<Object>(
         'dev.flutter.pigeon.NativeRouterApi.getStackFromHost', const StandardMessageCodec(), binaryMessenger: _binaryMessenger);
     final Map<Object, Object> replyMap =
@@ -298,6 +301,9 @@ class NativeRouterApi {
   }
 
   Future<void> saveStackToHost(StackInfo arg) async {
+    if(defaultTargetPlatform!=TargetPlatform.iOS&&defaultTargetPlatform!=TargetPlatform.android){
+      return null;
+    }
     final Object encoded = arg.encode();
     final BasicMessageChannel<Object> channel = BasicMessageChannel<Object>(
         'dev.flutter.pigeon.NativeRouterApi.saveStackToHost', const StandardMessageCodec(), binaryMessenger: _binaryMessenger);
